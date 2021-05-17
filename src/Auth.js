@@ -58,8 +58,13 @@ class Auth {
 
     // Check for basic information
     if (!email || email.length <= 0 || !password || password.length <= 0) {
-      console.error("No Email or password")
-      return;
+      if (CONFIG.EMAIL !== '<Tesla_Email>' && CONFIG.EMAIL.length > 0 && CONFIG.PASSWORD !== '<Tesla_Password>' && CONFIG.PASSWORD.length > 0) {
+        email = CONFIG.EMAIL;
+        password = CONFIG.PASSWORD;
+      } else {
+        console.error('You need to provide your Tesla account(Email) and password to sign in.');
+        return { status: false, msg: 'no-psw', data: null };
+      }
     }
     // Step 1: Obtain the login page
     // construct parameter
@@ -231,6 +236,7 @@ class Auth {
                             console.log(`4.3. Auth fail`);
                           }
                           fs.writeFileSync(CONTROL_TOKEN_FILE_PATH, cotRes.text);
+                          return { status: cotRes.statusCode === 200, msg: null, data: null };
                         })
                       
                     }
@@ -242,37 +248,15 @@ class Auth {
             })
         }
         
-
-        
     })
+  }
+
+  async refresh () {
+
   }
 
   async logout (token) {
 
-  }
-
-  async test() {
-    const form = {
-      grant_type: "urn:ietf:params:oauth:grant-type:jwt-bearer",
-      client_id: TESLA_CLIENT_ID,
-      client_secret: TESLA_CLIENT_SECRET
-    }
-    superagent
-      .post(API_CONTROL_TOKEN)
-      .auth('eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6ImFQTXpfbDNvamZ1U3B1SWR2eW4tODBuZ0ZpSSJ9.eyJpc3MiOiJodHRwczovL2F1dGgudGVzbGEuY24vb2F1dGgyL3YzIiwiYXVkIjpbImh0dHBzOi8vb3duZXItYXBpLnRlc2xhbW90b3JzLmNvbS8iLCJodHRwczovL2F1dGgudGVzbGEuY24vb2F1dGgyL3YzL3VzZXJpbmZvIl0sImF6cCI6Im93bmVyYXBpIiwic3ViIjoiMmM1MTA3NmUtZmM5MC00YWM5LTg5M2EtZWQwOGI4NGY1YjA1Iiwic2NwIjpbIm9wZW5pZCIsImVtYWlsIiwib2ZmbGluZV9hY2Nlc3MiXSwiYW1yIjpbInB3ZCJdLCJleHAiOjE2MjEyNjE4MjksImlhdCI6MTYyMTI2MTUyOSwiYXV0aF90aW1lIjoxNjIxMjYxNTI4fQ.X2NqFOk4fYTFJj09OB8wbmokiv-U1dNGSTjW5BWDUmCr2xEHl80E13rYOOYjsxGyVi9yAy7Ug4BuFFHaJQ5D9d9viIqnfVuFIFXDRe6-tnYTp-gML6CApvv4RZft8peDip4NFzsIBv_K98sTqHtMtk0NlHhmjXT2FtWAkXsxYMwzk1bF8FmuygqkVSEDt3VDAutGerh_j1mVw2I_QttLIjshQEIKFuWbPkB68FHfgYR242wbeldBxgPWkehScqynvwU24HrP_KnSzBwT1OsGLjNcPxPS-qJaOyCWogeyMaJ2MV4RVEhQoObifJrmyjxME8vN1RnuP3yV99-nY4ZJZWuSUHb2fJnegDxrAF0PnPgviEi2Jt66UsggWMX0NONuJva1qIuQlFHlzMBwRWKOGRoPWvGh09LvaX8DQbJvoMYFpxguXUDc7tMYIQrmXoN4u_dVeSA7lY0TcyUj60CdB9c0tG_zICdz3kB-PTh0xr89UXzpszo9Y2LxelNRNeOOb2nbqSua3Axnwdr7fyFJzSS2H76S69bNqscpnfGcHSyC-nyDzM-QEuqmh79LzSY8TiqpE_TEZwG9EaMwdOPMVOF_ZduDT3KE-5BplNKbxRqVwi2ljtOlxx-mhw_qZmY-RNGLoBJQBbQVzORi9ULZysGPfTQ-M47JZ6HqEcoN3aI', {type: 'bearer'})
-      .send(form)
-      .end((cotErr, cotRes) => {
-        console.log(cotRes.statusCode)
-        // // if(cotErr) console.log(cotErr);
-        // if(cotRes.statusCode === 200) {
-        //   console.log(`4.3. Auth successful`);
-        // } else {
-        //   console.log(`4.3. Auth fail`);
-        // }
-        // if(cotErr) fs.writeFileSync('error1.json', JSON.stringify(cotErr));
-        // fs.writeFileSync('error2.json', JSON.stringify(cotRes));
-        fs.writeFileSync(CONTROL_TOKEN_FILE_PATH, cotRes.text);
-      })
   }
 }
 
