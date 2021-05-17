@@ -1,0 +1,30 @@
+{
+  "name": "tesla-link",
+  "version": "1.0.0",
+  "description": "Link to your Tesla car by nodejs.",
+  "main": "app.js",
+  "scripts": {
+    "test": "dev"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/isjeffcom/tesla-link.git"
+  },
+  "dependencies": {
+    "@koa/router": "^10.0.0",
+    "cheerio": "*",
+    "koa": "^2.13.1",
+    "koa-bodyparser": "^4.3.0",
+    "sha.js": "^2.4.9",
+    "superagent": "^6.1.0"
+  },
+  "keywords": [
+    "tesla"
+  ],
+  "author": "jeffwu",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/isjeffcom/tesla-link/issues"
+  },
+  "homepage": "https://github.com/isjeffcom/tesla-link#readme"
+}
