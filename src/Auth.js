@@ -7,11 +7,6 @@ const shajs = require('sha.js');
 const superagent = require('superagent');
 const fs = require('fs');
 const cheerio = require('cheerio');
-const { createFolder } = require('./utils')
-
-// Create Folder for save data and debugging
-createFolder('../result')
-createFolder('../debug')
 
 // Read config
 // Fixed client id and client secret from: https://pastebin.com/pS7Z6yyP
@@ -21,11 +16,12 @@ const TESLA_CLIENT_SECRET = CONFIG.TESLA_CLIENT_SECRET;
 
 
 // Define APIs
-const API_BASE = CONFIG.BASE;
+const API_BASE = CONFIG.ACCOUNT_BASE;
+const API_CONTROL_BASE = CONFIG.CONTROL_BASE;
 const API_AUTH = '/oauth2/v3/authorize';
 const API_AUTH_REDIRECT = 'https://auth.tesla.com/void/callback';
 const API_TOKEN = '/oauth2/v3/token';
-const API_CONTROL_TOKEN = 'https://owner-api.teslamotors.com/oauth/token';
+const API_CONTROL_TOKEN = API_CONTROL_BASE + '/oauth/token';
 
 // File Path
 const AUTH_FILE_PATH = '../result/login_auth.json';
@@ -260,9 +256,9 @@ class Auth {
   }
 }
 
-const auth = new Auth()
-const account = JSON.parse(fs.readFileSync("../account.json", {encoding: "utf-8"}));
-auth.login(account.email, account.password)
+// const auth = new Auth()
+// const account = JSON.parse(fs.readFileSync("../account.json", {encoding: "utf-8"}));
+// auth.login(account.email, account.password)
 
 
 function randomString (length = 86) {
