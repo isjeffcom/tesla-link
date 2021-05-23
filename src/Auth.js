@@ -1,5 +1,5 @@
 /**
- * Tesla remote control authorization
+ * Tesla Link authorization
  * @reference https://tesla-api.timdorr.com/api-basics/authentication
  * @auther jeffwu
  */
@@ -7,6 +7,7 @@ const shajs = require('sha.js');
 const superagent = require('superagent');
 const fs = require('fs');
 const cheerio = require('cheerio');
+const { resolve } = require('path');
 
 // Read config
 // Fixed client id and client secret from: https://pastebin.com/pS7Z6yyP
@@ -30,7 +31,7 @@ const CONTROL_TOKEN_FILE_PATH = '../result/control_token.json'
 /**
  * Auth struct
  */
-class Auth {
+ module.exports = class Auth {
   constructor () {
     this.BASE = API_BASE;
     this.STATE = randomString(4);
@@ -105,8 +106,8 @@ class Auth {
 
           console.log(`1.2. New base URL: ${this.BASE}`);
           
-          this.login();
-          return;
+          this.login(email, password);
+          return { status: false, msg: 'Update regional base url', data: null };
         }
 
         if (response.statusCode === 200) {
